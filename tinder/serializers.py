@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from tinder.base.services import watermark
 from tinder.models import Client
 
 
@@ -10,11 +11,12 @@ class ClientRegisterSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
+        avatar = watermark(validated_data['avatar'])
         client = Client.objects.create_user(
             username=validated_data['username'],
             password=validated_data['password'],
             gender=validated_data['gender'],
-            avatar=validated_data['avatar'],
+            avatar=avatar,
             email=validated_data['email'],
         )
 

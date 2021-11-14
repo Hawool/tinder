@@ -39,4 +39,4 @@ class LoginAPI(KnoxLoginView):
 class ClientListView(ListAPIView):
     queryset = Client.objects.all()
     serializer_class = ClientsSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
