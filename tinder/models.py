@@ -1,10 +1,12 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.db import models
 
 from tinder.base.services import get_path_upload_avatar
 
+UserModel = get_user_model()
 
-class Client(User):
+
+class Client(UserModel):
     avatar = models.ImageField(upload_to=get_path_upload_avatar, blank=True, null=True)
     gender_choices = [
         ('M', 'Man'),
