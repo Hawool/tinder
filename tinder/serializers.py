@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from tinder.base.services import watermark
-from tinder.models import Client
+from tinder.models import Client, Match
 
 
 class ClientRegisterSerializer(serializers.ModelSerializer):
@@ -26,4 +26,10 @@ class ClientRegisterSerializer(serializers.ModelSerializer):
 class ClientsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
+        fields = '__all__'
+
+
+class MatchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Match
         fields = '__all__'

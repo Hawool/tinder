@@ -10,6 +10,8 @@ urlpatterns = [
     path('clients/logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
 
     path('clients/all', views.ClientListView.as_view()),
+
+    path('clients/<int:pk>/match', views.MatchCreateViewSet.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

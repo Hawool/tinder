@@ -1,13 +1,14 @@
 from django.contrib.auth import login
+from django.core.mail import send_mail
 from knox.models import AuthToken
-from rest_framework import permissions, generics
+from rest_framework import permissions, generics, status
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from knox.views import LoginView as KnoxLoginView
 
-from tinder.models import Client
-from tinder.serializers import ClientRegisterSerializer, ClientsSerializer
+from tinder.models import Client, Match
+from tinder.serializers import ClientRegisterSerializer, ClientsSerializer, MatchSerializer
 
 
 class CreateClientView(generics.GenericAPIView):
@@ -40,3 +41,39 @@ class ClientListView(ListAPIView):
     queryset = Client.objects.all()
     serializer_class = ClientsSerializer
     # permission_classes = [permissions.IsAuthenticated]
+
+
+class MatchCreateViewSet(generics.GenericAPIView):
+    serializer_class = MatchSerializer
+
+    def post(self, request, pk, *args, **kwargs):
+        handpicked = Client.objects.get(id=pk)
+        owner = request.user
+        data = {
+            'owner': owner,
+            'handpicked': handpicked,
+            'like': request.data['like']
+        }
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        match = serializer.save()
+
+        handpicked_match = Match.objects.filter(owner=handpicked, handpicked=owner, like=True)
+
+        # если симпатия от другого человека уже есть - отправка email
+        if handpicked_match.exists():
+            # отправка сообщения на почту (условно)
+            send_mail(
+                'Tinder',
+                f'Вы понравились {owner.first_name} {owner.last_name}! Почта участника: {owner.email}',
+                'tinder@example.com',
+                [owner.email],
+            )
+            send_mail(
+                'Tinder',
+                f'Вы понравились {handpicked.first_name} {handpicked.last_name}! Почта участника: {handpicked.email}',
+                'tinder@example.com',
+                [handpicked.email],
+            )
+            return Response({'handpicked_email': handpicked.email}, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -20,3 +20,17 @@ class Client(UserModel):
 
     def __str__(self):
         return self.username
+
+
+class Match(models.Model):
+    owner = models.ForeignKey(Client, related_name='match_owner', on_delete=models.CASCADE, blank=True, null=True)
+    handpicked = models.ForeignKey(Client, related_name='match_handpicked', on_delete=models.CASCADE, blank=True,
+                                   null=True)
+    like = models.BooleanField()
+
+    class Meta:
+        verbose_name = "Match"
+        verbose_name_plural = "Matchs"
+
+    def __str__(self):
+        return f'{self.owner.username} - {self.handpicked.username}'
