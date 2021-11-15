@@ -1,5 +1,6 @@
 from django.contrib.auth import login
 from django.core.mail import send_mail
+from django_filters.rest_framework import DjangoFilterBackend
 from knox.models import AuthToken
 from rest_framework import permissions, generics, status
 from rest_framework.authtoken.serializers import AuthTokenSerializer
@@ -40,6 +41,8 @@ class LoginAPI(KnoxLoginView):
 class ClientListView(ListAPIView):
     queryset = Client.objects.all()
     serializer_class = ClientsSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['gender', 'first_name', 'last_name']
     # permission_classes = [permissions.IsAuthenticated]
 
 
