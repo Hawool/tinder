@@ -14,6 +14,9 @@ class Client(UserModel):
     ]
     gender = models.CharField(max_length=2, choices=gender_choices)
 
+    longitude = models.FloatField(blank=True, null=True)
+    latitude = models.FloatField(blank=True, null=True)
+
     class Meta:
         verbose_name = "Client"
         verbose_name_plural = "Clients"

@@ -2,6 +2,7 @@ from PIL import Image
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from matplotlib import pyplot as plt
 from io import BytesIO
+from math import radians, cos, sin, asin, sqrt
 
 
 def get_path_upload_avatar(instance, file):
@@ -35,3 +36,20 @@ def watermark(img):
         image_bytes, None, img.name, 'image/png', None, None, None
     )
     return new_image
+
+
+def km_distance(lon1, lat1, lon2, lat2):
+    """
+    Calculate the great circle distance between two points
+    on the earth (specified in decimal degrees)
+    """
+    # convert decimal degrees to radians
+    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+    # haversine formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
+    c = 2 * asin(sqrt(a))
+    # Radius of earth in kilometers is 6371
+    km = 6371 * c
+    return km

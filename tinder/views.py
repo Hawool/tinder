@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from knox.views import LoginView as KnoxLoginView
 
 from tinder.models import Client, Match
-from tinder.serializers import ClientRegisterSerializer, ClientsSerializer, MatchSerializer
+from tinder.serializers import ClientRegisterSerializer, ClientsSerializer, MatchSerializer, ClientsDistanceSerializer
 
 
 class CreateClientView(generics.GenericAPIView):
@@ -40,7 +40,7 @@ class LoginAPI(KnoxLoginView):
 
 class ClientListView(ListAPIView):
     queryset = Client.objects.all()
-    serializer_class = ClientsSerializer
+    serializer_class = ClientsDistanceSerializer
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['gender', 'first_name', 'last_name']
     # permission_classes = [permissions.IsAuthenticated]
