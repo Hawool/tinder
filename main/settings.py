@@ -31,7 +31,8 @@ SECRET_KEY = 'django-insecure-^1v6yo9-y3_0ev^tfk^1c-69uf=fb&lv0#zkd#d=f!*zren+qv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'mytesttinder.herokuapp.com']
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'mytesttinder.herokuapp.com']
+ALLOWED_HOSTS = ['mytesttinder.herokuapp.com']
 
 
 # Application definition
@@ -152,3 +153,11 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
+
+MIDDLEWARE_CLASSES = (
+    # Simplified static file serving.
+    # https://warehouse.python.org/project/whitenoise/
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+)
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
