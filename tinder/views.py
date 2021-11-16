@@ -43,7 +43,7 @@ class ClientListView(ListAPIView):
     serializer_class = ClientsDistanceSerializer
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['gender', 'first_name', 'last_name']
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class MatchCreateViewSet(generics.GenericAPIView):

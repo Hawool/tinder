@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+import django_heroku
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +29,7 @@ SECRET_KEY = 'django-insecure-^1v6yo9-y3_0ev^tfk^1c-69uf=fb&lv0#zkd#d=f!*zren+qv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -41,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'knox',
+    'drf_yasg',
 
     'tinder',
 ]
