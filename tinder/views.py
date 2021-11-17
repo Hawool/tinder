@@ -48,6 +48,7 @@ class ClientListView(ListAPIView):
 
 class MatchCreateViewSet(generics.GenericAPIView):
     serializer_class = MatchSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk, *args, **kwargs):
         handpicked = Client.objects.get(id=pk)
