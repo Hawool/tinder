@@ -25,6 +25,7 @@ numpy==1.21.4
 packaging==21.2
 Pillow==8.4.0
 psycopg2==2.9.2
+psycopg2-binary==2.9.2
 pycparser==2.21
 pyparsing==2.4.7
 python-dateutil==2.8.2
