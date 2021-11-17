@@ -12,9 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 import django_heroku
-
-# Activate Django-Heroku.
-django_heroku.settings(locals())
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,8 +29,7 @@ SECRET_KEY = 'django-insecure-^1v6yo9-y3_0ev^tfk^1c-69uf=fb&lv0#zkd#d=f!*zren+qv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'mytesttinder.herokuapp.com']
-ALLOWED_HOSTS = ['mytesttinder.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -61,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'main.urls'
@@ -87,12 +85,26 @@ WSGI_APPLICATION = 'main.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
+# if DEBUG:
+#     DATABASES['default']: {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# else:
+#     DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+#     DATABASES['default'] = dj_database_url.config(default='postgres://xeskejjcfpennh:e3d1e866a870813d231cb76e49a2e5deb5e1386613eee10c4549af12002d6654@ec2-52-208-229-228.eu-west-1.compute.amazonaws.com:5432/d5g4gdodtighl3')
+
+
 
 
 # Password validation
@@ -161,3 +173,6 @@ MIDDLEWARE_CLASSES = (
 )
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
