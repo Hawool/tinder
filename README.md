@@ -18,8 +18,8 @@ https://en.wikipedia.org/wiki/Great-circle_distance
 Иструкция по запуску на локальной машине:
 - git clone https://github.com/Hawool/tinder.git
 - cd tinder
-- docker build -t tinder_img .
-- docker run --rm --name tinder_container -p 8000:8000 tinder_img
+- docker-compose up -d --build
+- docker-compose exec api python manage.py migrate --noinput
 
 Затем можно открыть в браузере http://0.0.0.0:8000
 
